@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <title>Wzór raportu z konkurencji „Inspekcja”</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='inspection-report.css') }}">
+    <script defer src="{{ url_for('static', filename='inspection-report.js') }}"></script>
+</head>
+<body>
+    <div class="report-container">
+        <header>
+            <img src="{{ url_for('static', filename='img/logo.png') }}" alt="Logo" class="logo">
+            <h1>Wzór raportu z konkurencji „Inspekcja”</h1>
+        </header>
+        <nav class="toc">
+            <h2>Spis treści</h2>
+            <ol>
+                <li><span>Podstawowe informacje o wykonanej misji</span></li>
+                <li><span>Dodatkowe informacje o wykonanej misji</span></li>
+                <li><span>Lista pracowników znajdujących się na terenie</span></li>
+                <li><span>Zmiany w infrastrukturze</span></li>
+                <li><span>Sytuacje nadzwyczajne</span></li>
+                <li><span>Kody ArUcoS</span></li>
+                <li><span>Mapa infrastruktury</span></li>
+                <li><span>Informacje końcowe</span></li>
+            </ol>
+        </nav>
+
+        <section>
+            <h3>1. Podstawowe informacje o wykonanej misji</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>ZESPÓŁ</th>
+                        <th>JURY</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Nazwa / email</td>
+                        <td id="team-name"></td>
+                        <td>+/-</td>
+                    </tr>
+                    <tr>
+                        <td>Adres email</td>
+                        <td id="team-email"></td>
+                        <td>+/-</td>
+                    </tr>
+                    <tr>
+                        <td>Nazwisko pilota / nr komórki</td>
+                        <td><span id="pilot-name"></span> / <span id="pilot-phone"></span></td>
+                        <td>+/-</td>
+                    </tr>
+                    <tr>
+                        <td>Data i godzina rozpoczęcia misji</td>
+                        <td id="mission-time"></td>
+                        <td>+/-</td>
+                    </tr>
+                    <tr>
+                        <td>Nr misji</td>
+                        <td id="mission-no"></td>
+                        <td>+/-</td>
+                    </tr>
+                    <tr>
+                        <td>Czas trwania lotu</td>
+                        <td id="duration"></td>
+                        <td>+/-</td>
+                    </tr>
+                    <tr>
+                        <td>Stan baterii przed wykonaniem lotu</td>
+                        <td id="battery-before"></td>
+                        <td>+/-</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+        <section>
+            <h3>2. Dodatkowe informacje o wykonanej misji</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>ZESPÓŁ</th>
+                        <th>JURY</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Index KP</td>
+                        <td id="kp-index"></td>
+                        <td>+/-</td>
+                    </tr>
+                    <tr>
+                        <td>Stan baterii po zakończeniu lotu</td>
+                        <td id="battery-after"></td>
+                        <td>+/-</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section>
+            <h3>4. Zmiany w infrastrukturze</h3>
+            <table id="infra-changes">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Kategoria</th>
+                        <th>Czas wykrycia</th>
+                        <th>Lokalizacja</th>
+                        <th>Zdjęcie</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Wiersze generowane dynamicznie przez JS -->
+                </tbody>
+            </table>
+        </section>
+        <section>
+            <h3>5. Sytuacje nadzwyczajne</h3>
+            <table id="incidents">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Zdarzenie</th>
+                        <th>Czas</th>
+                        <th>Lokalizacja</th>
+                        <th>Zdjęcie</th>
+                        <th>Powiadomienie</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Wiersze generowane przez JS -->
+                </tbody>
+            </table>
+        </section>
+    </div>
+</body>
+</html>
