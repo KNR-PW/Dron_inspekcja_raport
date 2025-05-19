@@ -1,6 +1,6 @@
 body {
-    background: #232323;
-    color: #eee;
+    background: #f0f2f5;
+    color: #2e2e2e;
     font-family: 'Segoe UI', Arial, sans-serif;
     margin: 0;
     padding: 0;
@@ -9,10 +9,10 @@ body {
 .report-container {
     max-width: 950px;
     margin: 20px auto;
-    background: #232323;
+    background: #ffffff;
     padding: 32px;
     border-radius: 10px;
-    box-shadow: 0 2px 12px #0007;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
 }
 
 header {
@@ -29,29 +29,30 @@ header {
 
 h1 {
     font-size: 1.5rem;
-    color: #fff;
+    color: #1a1a1a;
     font-weight: bold;
 }
 
 .toc {
-    background: #222;
+    background: #e0ecf8;
     padding: 16px;
     border-radius: 6px;
     margin-bottom: 32px;
+    border-left: 6px solid #f57c00;
 }
 
 .toc h2 {
-    color: #8ff57a;
+    color: #1a1a1a;
     font-size: 1.15rem;
     margin-top: 0;
 }
 
 .toc ol {
-    color: #fff;
+    color: #333;
     padding-left: 25px;
 }
 .toc ol li span {
-    color: #4add4a;
+    color: #1a1a1a;
     font-weight: 500;
     font-size: 1.05em;
 }
@@ -61,17 +62,21 @@ section {
 }
 
 h3 {
-    color: #8ff57a;
+    color: #2264c7;
     margin-bottom: 16px;
     font-size: 1.1rem;
     font-weight: bold;
+    /*border-bottom: 2px solid #f57c00;*/
+    display: inline-block;
+    padding-bottom: 4px;
 }
 
 .section-desc {
     font-size: 0.98em;
-    color: #ccc;
+    color: #5e5e5e;
     margin-bottom: 10px;
 }
+
 .map-section {
     display: flex;
     justify-content: center;
@@ -85,17 +90,17 @@ table {
 }
 
 thead th {
-    background: #254e26;
+    background: #2264c7;
     color: #fff;
     padding: 10px 7px;
     font-weight: bold;
-    border: 1px solid #3c3c3c;
+    border: 1px solid #d0d0d0;
 }
 
 tbody td {
-    background: #303030;
-    border: 1px solid #454545;
-    color: #eee;
+    background: #f9f9f9;
+    border: 1px solid #ddd;
+    color: #333;
     padding: 7px;
     vertical-align: middle;
     text-align: center;
@@ -110,26 +115,31 @@ tbody img {
     max-width: 70px;
     max-height: 70px;
     border-radius: 5px;
-    border: 1px solid #454545;
+    /*border: 2px solid #f57c00;*/
 }
 
 tbody tr:nth-child(even) td {
-    background: #282828;
+    background: #f1f5fb;
 }
 
 #final-info .special {
-    background: #254e26 !important;
-    color: #fff;
+    background: #ffe0b2 !important;
+    color: #bf360c;
     font-weight: 500;
+    border-left: 4px solid #f57c00;
+    padding-left: 8px;
 }
+
 #final-info .crossed {
-    color: #e471e8 !important;
+    color: #c03c9f !important;
     text-decoration: line-through;
-    background: #303030 !important;
+    background: #f9f9f9 !important;
+
 }
+
 #final-info .bold {
     font-weight: bold;
-    color: #fff;
+    color: #f57c00;
 }
 
 @media (max-width: 800px) {
