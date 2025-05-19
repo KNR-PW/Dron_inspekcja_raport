@@ -1,5 +1,3 @@
-// JS do pobierania i wypełniania danych raportu z Flask API
-
 async function loadReport() {
     const response = await fetch('/api/report');
     const data = await response.json();
@@ -47,6 +45,26 @@ async function loadReport() {
         `;
         incidentsTable.appendChild(tr);
     });
+
+    // Kody ArUco
+    const arucoTable = document.querySelector("#arucos tbody");
+    arucoTable.innerHTML = "";
+    data.arucos.forEach((row, idx) => {
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+            <td>${idx + 1}</td>
+            <td>${row.content}</td>
+            <td>${row.location}</td>
+            <td>${row.location_changed}</td>
+            <td>${row.content_changed}</td>
+            <td><img src="${row.image}" alt="Aruco" style="max-width:52px;"></td>
+            <td>${row.jury}</td>
+        `;
+        arucoTable.appendChild(tr);
+    });
+
+    // Mapa infrastruktury
+    document.querySelector("#infra-map").src = data.infra_map;
 }
 
 document.addEventListener("DOMContentLoaded", loadReport);

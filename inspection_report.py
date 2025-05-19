@@ -19,7 +19,9 @@ def generate_random_report():
         "kp_index": random.randint(1, 10),
         "infrastructure_changes": [
             {
-                "category": random.choice(["Rurociąg", "Linia wysokiego napięcia", "Ogrodzenie", "Pozostawiony sprzęt"]),
+                "category": random.choice([
+                    "Rurociąg", "Linia wysokiego napięcia", "Ogrodzenie", "Pozostawiony sprzęt"
+                ]),
                 "detection_time": now.strftime("%d/%m/%Y, %H:%M:%S"),
                 "location": "Lat 41.40338, Long 2.17403",
                 "image": "/static/img/pipe.jpg",
@@ -35,6 +37,17 @@ def generate_random_report():
                 "notified": random.choice(["Tak", "Nie"]),
                 "jury": random.choice(["+", "-"])
             }
-        ]
+        ],
+        "arucos": [
+            {
+                "content": f"{random.randint(10,99)}",
+                "location": "Lat 41.40338, Long 2.17403",
+                "location_changed": random.choice(["Tak", "Nie"]),
+                "content_changed": random.choice(["Tak", "Nie", "LiczbaData Tak/Nie"]),
+                "image": f"/static/img/aruco{random.randint(1,2)}.png",
+                "jury": random.choice(["+", "-"])
+            } for _ in range(2)
+        ],
+        "infra_map": "/static/img/mapa.jpg"
     }
     return report

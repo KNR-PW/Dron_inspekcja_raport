@@ -137,6 +137,39 @@
                 </tbody>
             </table>
         </section>
+
+        <section>
+            <h3>6. Kody ArUco</h3>
+            <p class="section-desc">
+                (Znajdź i odczytaj kody. Porównaj, czy nastąpiła zmiana zawartości kodu w stosunku do lotu ZERO, o ile kod jest w tym samym miejscu. Jeśli zaś jest w innym, podaj nową lokalizację i odczytaną zawartość. Liczba kodów jest nieznana).
+            </p>
+            <table id="arucos">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Zawartość</th>
+                        <th>Lokalizacja</th>
+                        <th>Czy nastąpiła zmiana lokalizacji względem lotu ZERO</th>
+                        <th>Czy nastąpiła zmiana zawartości względem lotu ZERO</th>
+                        <th>Zdjęcie</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Wiersze generowane dynamicznie przez JS -->
+                </tbody>
+            </table>
+        </section>
+
+        <section>
+            <h3>7. Mapa infrastruktury (uzupełnia zespół)</h3>
+            <p>
+                Mapa terenu objętego inspekcją, z naniesionymi lokalizacjami wykrytych zdarzeń.
+            </p>
+            <div class="map-section">
+                <img id="infra-map" src="/static/img/mapa.jpg" alt="Mapa infrastruktury" style="max-width:410px; border-radius:9px; border:2px solid #555;">
+            </div>
+        </section>
     </div>
 </body>
 </html>
