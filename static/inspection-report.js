@@ -65,6 +65,20 @@ async function loadReport() {
 
     // Mapa infrastruktury
     document.querySelector("#infra-map").src = data.infra_map;
+
+    // Informacje końcowe
+    const finalInfoTable = document.querySelector("#final-info tbody");
+    finalInfoTable.innerHTML = "";
+    data.final_info.forEach(row => {
+        const tr = document.createElement("tr");
+        let rowClass = row.class ? row.class : "";
+        tr.className = rowClass;
+        tr.innerHTML = `
+            <td>${row.desc}</td>
+            <td>${row.points || ""}</td>
+        `;
+        finalInfoTable.appendChild(tr);
+    });
 }
 
 document.addEventListener("DOMContentLoaded", loadReport);

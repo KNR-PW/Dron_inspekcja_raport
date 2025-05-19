@@ -48,6 +48,19 @@ def generate_random_report():
                 "jury": random.choice(["+", "-"])
             } for _ in range(2)
         ],
-        "infra_map": "/static/img/mapa.jpg"
+        "infra_map": "/static/img/mapa.jpg",
+        "final_info": [
+            {"desc": "Uzupełnia Komisja Sędziowska", "points": "", "class": "special"},
+            {"desc": "Lot ZERO z poprawnym przygotowanym raportem początkowym", "points": "", "class": "crossed"},
+            {"desc": "Automatyczny start, lot i lądowanie", "points": ""},
+            {"desc": "Poprawne wykrycie i raportowanie zmiany w infrastrukturze stałej (zmiany statyczne)", "points": ""},
+            {"desc": "Poprawne wykrycie i raportowanie o pracownikach", "points": ""},
+            {"desc": "Poprawne wykrycie zdarzenia nadzwyczajnego", "points": ""},
+            {"desc": "Wykrycie i odczytanie kodów ArUCo", "points": ""},
+            {"desc": "Najkrótszy czas wykonania całej misji (lot + raport)", "points": ""},
+            {"desc": "Premia za wysłanie raportu jeszcze w trakcie lotu lub jednocześnie wraz z lądowaniem", "points": ""},
+            {"desc": "Punkty karne", "points": ""},
+            {"desc": "Suma punktów", "points": "", "class": "bold"}
+        ]
     }
     return report
