@@ -7,9 +7,11 @@
     <script defer src="{{ url_for('static', filename='inspection-report.js') }}"></script>
 </head>
 <body>
+    <button onclick="clearReport()" style="margin: 12px;">🗑️ Wyczyść raport</button>
+
     <div class="report-container">
         <header>
-            <img src="{{ url_for('static', filename='pawelios.jpg') }}" alt="Logo" class="logo">
+            <img src="{{ url_for('static', filename='logo-drone-wings.png') }}" alt="Logo" class="logo">
             <h1>Wzór raportu z konkurencji „Inspekcja”</h1>
         </header>
         <nav class="toc">

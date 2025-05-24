@@ -80,5 +80,41 @@ async function loadReport() {
         finalInfoTable.appendChild(tr);
     });
 }
+async function clearReport() {
+    const confirmClear = confirm("Czy na pewno chcesz usunąć zapisany raport?");
+    if (!confirmClear) return;
 
-document.addEventListener("DOMContentLoaded", loadReport);
+    const response = await fetch('/api/report', { method: 'DELETE' });
+    if (response.ok) {
+        alert("Raport został usunięty.");
+        clearReportFromUI();
+    } else {
+        alert("Nie udało się usunąć raportu.");
+    }
+}
+
+function clearReportFromUI() {
+    const clear = sel => document.querySelector(sel).textContent = "";
+    clear("#team-name");
+    clear("#team-email");
+    clear("#pilot-name");
+    clear("#pilot-phone");
+    clear("#mission-time");
+    clear("#mission-no");
+    clear("#duration");
+    clear("#battery-before");
+    clear("#battery-after");
+    clear("#kp-index");
+
+    document.querySelector("#infra-changes tbody").innerHTML = "";
+    document.querySelector("#incidents tbody").innerHTML = "";
+    document.querySelector("#arucos tbody").innerHTML = "";
+    document.querySelector("#infra-map").src = "/static/img/mapa.jpg";
+    document.querySelector("#final-info tbody").innerHTML = "";
+}
+
+// document.addEventListener("DOMContentLoaded", loadReport);
+document.addEventListener("DOMContentLoaded", () => {
+    loadReport(); // initial load
+    setInterval(loadReport, 1000); // reload every 1 seconds
+});
