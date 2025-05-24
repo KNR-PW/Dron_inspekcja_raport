@@ -64,3 +64,56 @@ def generate_random_report():
         ]
     }
     return report
+
+def build_report(
+    team: str = "",
+    email: str = "",
+    pilot: str = "",
+    phone: str = "",
+    mission_time: datetime = datetime.now(),
+    mission_no: str = "",
+    duration: str = "",
+    battery_before: str = "",
+    battery_after: str = "",
+    kp_index: int = 0,
+    infrastructure_changes: list = None,
+    incidents: list = None,
+    arucos: list = None,
+    infra_map: str = "/static/img/mapa.jpg"
+):
+    if infrastructure_changes is None:
+        infrastructure_changes = []
+    if incidents is None:
+        incidents = []
+    if arucos is None:
+        arucos = []
+
+    return {
+        "team": team,
+        "email": email,
+        "pilot": pilot,
+        "phone": phone,
+        "mission_time": mission_time.strftime("%d/%m/%Y, %H:%M:%S"),
+        "mission_no": mission_no,
+        "duration": duration,
+        "battery_before": battery_before,
+        "battery_after": battery_after,
+        "kp_index": kp_index,
+        "infrastructure_changes": infrastructure_changes,
+        "incidents": incidents,
+        "arucos": arucos,
+        "infra_map": infra_map,
+        "final_info": [
+            {"desc": "Uzupełnia Komisja Sędziowska", "points": "", "class": "special"},
+            {"desc": "Lot ZERO z poprawnym przygotowanym raportem początkowym", "points": "", "class": "crossed"},
+            {"desc": "Automatyczny start, lot i lądowanie", "points": ""},
+            {"desc": "Poprawne wykrycie i raportowanie zmiany w infrastrukturze stałej (zmiany statyczne)", "points": ""},
+            {"desc": "Poprawne wykrycie i raportowanie o pracownikach", "points": ""},
+            {"desc": "Poprawne wykrycie zdarzenia nadzwyczajnego", "points": ""},
+            {"desc": "Wykrycie i odczytanie kodów ArUCo", "points": ""},
+            {"desc": "Najkrótszy czas wykonania całej misji (lot + raport)", "points": ""},
+            {"desc": "Premia za wysłanie raportu jeszcze w trakcie lotu lub jednocześnie wraz z lądowaniem", "points": ""},
+            {"desc": "Punkty karne", "points": ""},
+            {"desc": "Suma punktów", "points": "", "class": "bold"}
+        ]
+    }
