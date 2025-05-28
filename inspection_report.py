@@ -6,6 +6,18 @@ def generate_random_report():
     start_time = now - timedelta(minutes=random.randint(10, 30))
     duration = (now - start_time).seconds
 
+    # Dodaj losowych pracowników (sekcja 3)
+    employees = [
+        {
+            "present": random.choice(["Jest", "Nie ma"]),
+            "bhp": random.choice(["Tak", "Nie"]),
+            "location": "Lat 41.40338, Long 2.17403",
+            "location_changed": random.choice(["Tak", "Nie"]),
+            "image": "/static/img/employee.jpg",
+            "jury": random.choice(["+", "-"])
+        } for _ in range(random.randint(3, 6))
+    ]
+
     report = {
         "team": "Dronix",
         "email": "kontakt@dronix.pl",
@@ -17,6 +29,7 @@ def generate_random_report():
         "battery_before": f"{random.randint(80, 100)}% / {random.uniform(16.0, 16.8):.2f} V",
         "battery_after": f"{random.randint(30, 60)}% / {random.uniform(15.0, 16.0):.2f} V",
         "kp_index": random.randint(1, 10),
+        "employees": employees,   # <-- dodane!
         "infrastructure_changes": [
             {
                 "category": random.choice([
@@ -76,11 +89,14 @@ def build_report(
     battery_before: str = "",
     battery_after: str = "",
     kp_index: int = 0,
+    employees: list = None,  # <-- dodane!
     infrastructure_changes: list = None,
     incidents: list = None,
     arucos: list = None,
     infra_map: str = "/static/img/mapa.jpg"
 ):
+    if employees is None:
+        employees = []
     if infrastructure_changes is None:
         infrastructure_changes = []
     if incidents is None:
@@ -99,6 +115,7 @@ def build_report(
         "battery_before": battery_before,
         "battery_after": battery_after,
         "kp_index": kp_index,
+        "employees": employees,  # <-- dodane!
         "infrastructure_changes": infrastructure_changes,
         "incidents": incidents,
         "arucos": arucos,

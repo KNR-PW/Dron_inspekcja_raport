@@ -1,4 +1,5 @@
 async function loadReport() {
+    console.log("JS inspection-report.js loaded!");
     const response = await fetch('/api/report');
     const data = await response.json();
 
@@ -28,6 +29,24 @@ async function loadReport() {
         `;
         infraTable.appendChild(tr);
     });
+
+     const employeesTable = document.querySelector("#employees tbody");
+    employeesTable.innerHTML = "";
+    if (Array.isArray(data.employees)) {
+        data.employees.forEach((row, idx) => {
+            const tr = document.createElement("tr");
+            tr.innerHTML = `
+                <td>${idx + 1}</td>
+                <td>${row.present}</td>
+                <td>${row.bhp}</td>
+                <td>${row.location}</td>
+                <td>${row.location_changed}</td>
+                <td><img src="${row.image}" alt="Pracownik"></td>
+                <td>${row.jury}</td>
+            `;
+            employeesTable.appendChild(tr);
+        });
+    }
 
     // Sytuacje nadzwyczajne
     const incidentsTable = document.querySelector("#incidents tbody");

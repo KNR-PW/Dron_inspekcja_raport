@@ -1,6 +1,6 @@
 import os
 import json
-from flask import Flask, render_template, jsonify, request, abort
+from flask import Flask, render_template, jsonify, request
 from inspection_report import generate_random_report, build_report
 from datetime import datetime
 
@@ -31,7 +31,8 @@ def index():
 def get_report():
     report = load_report()
     if not report:
-        return jsonify({"error": "No report available"}), 404
+        # Jeśli nie ma zapisanej wersji, generuj losowy raport
+        report = generate_random_report()
     return jsonify(report)
 
 @app.route("/api/report/create", methods=["POST"])
@@ -54,6 +55,7 @@ def create_report():
         battery_before=data.get("battery_before", ""),
         battery_after=data.get("battery_after", ""),
         kp_index=data.get("kp_index", 0),
+        employees=data.get("employees", []),
         infrastructure_changes=data.get("infrastructure_changes", []),
         incidents=data.get("incidents", []),
         arucos=data.get("arucos", []),
