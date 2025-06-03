@@ -103,12 +103,12 @@ async function clearReport() {
     const confirmClear = confirm("Czy na pewno chcesz usunąć zapisany raport?");
     if (!confirmClear) return;
 
-    const response = await fetch('/api/report', { method: 'DELETE' });
+    const response = await fetch('/api/report/delete', { method: 'DELETE' });
     if (response.ok) {
         alert("Raport został usunięty.");
         clearReportFromUI();
     } else {
-        alert("Nie udało się usunąć raportu.");
+        alert("Nie udało się usunąć raportu. "+response.statusText);
     }
 }
 

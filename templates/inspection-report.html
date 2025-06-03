@@ -2,7 +2,7 @@
 <html lang="pl">
 <head>
     <meta charset="UTF-8">
-    <title>Wzór raportu z konkurencji „Inspekcja”</title>
+    <title>KNR Drone. Raport z konkurencji „Inspekcja”</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='inspection-report.css') }}">
     <script defer src="{{ url_for('static', filename='inspection-report.js') }}"></script>
 </head>
@@ -12,7 +12,7 @@
     <div class="report-container">
         <header>
             <img src="{{ url_for('static', filename='logo-drone-wings.png') }}" alt="Logo" class="logo">
-            <h1>Wzór raportu z konkurencji „Inspekcja”</h1>
+            <h1>KNR Drone. Raport z konkurencji „Inspekcja”</h1>
         </header>
         <nav class="toc">
             <h2>Spis treści</h2>
@@ -163,9 +163,9 @@
 
         <section>
             <h3>6. Kody ArUco</h3>
-            <p class="section-desc">
+            <!-- <p class="section-desc">
                 (Znajdź i odczytaj kody. Porównaj, czy nastąpiła zmiana zawartości kodu w stosunku do lotu ZERO, o ile kod jest w tym samym miejscu. Jeśli zaś jest w innym, podaj nową lokalizację i odczytaną zawartość. Liczba kodów jest nieznana).
-            </p>
+            </p> -->
             <table id="arucos">
                 <thead>
                     <tr>
@@ -185,7 +185,7 @@
         </section>
 
         <section>
-            <h3>7. Mapa infrastruktury (uzupełnia zespół)</h3>
+            <h3>7. Mapa infrastruktury</h3>
             <p>
                 Mapa terenu objętego inspekcją, z naniesionymi lokalizacjami wykrytych zdarzeń.
             </p>

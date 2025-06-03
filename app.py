@@ -8,6 +8,7 @@ app = Flask(__name__)
 
 # where we'll store the last-submitted report
 REPORT_PATH = os.path.join(app.root_path, "custom_report.json")
+IMG_UPLOAD_FOLDER = os.path.join(app.root_path, "data/img")
 
 def load_report():
     if os.path.exists(REPORT_PATH):
@@ -32,7 +33,8 @@ def get_report():
     report = load_report()
     if not report:
         # Jeśli nie ma zapisanej wersji, generuj losowy raport
-        report = generate_random_report()
+        # report = generate_random_report()
+        return jsonify({"error": "No report available"}), 404
     return jsonify(report)
 
 @app.route("/api/report/create", methods=["POST"])
@@ -93,6 +95,24 @@ def delete_report():
 
     delete_report_file()
     return jsonify({"message": "Report deleted successfully"})
+
+@app.route("/api/report/image", methods=["POST"])
+def upload_image():
+    global latest_image
+
+    if "image" not in request.files:
+        return jsonify({"success": False, "error": "No image provided"}), 400
+
+    file = request.files["image"]
+    if file.filename == "":
+        return jsonify({"success": False, "error": "Empty filename"}), 400
+
+    # filename = secure_filename(f"{int(time.time())}_{file.filename}")
+    filename = file.filename
+    filepath = os.path.join(IMG_UPLOAD_FOLDER, filename)
+    file.save(filepath)
+
+    return jsonify({"success": True, "filename": filename})
 
 if __name__ == "__main__":
     app.run(debug=True)
