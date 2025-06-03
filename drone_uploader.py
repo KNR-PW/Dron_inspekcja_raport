@@ -38,11 +38,12 @@ def upload_image(filename):
     with open(path, 'rb') as f:
         files = {'image': f}
         resp = requests.post(f"{BASE_URL}/api/report/image", files=files)
+        print(f"[UPLOAD] {filename} → {resp.status_code} → {resp.text}")
         if resp.status_code == 200:
             return resp.json().get("filename")
         else:
-            print(f"Upload failed for {filename}: {resp.text}")
             return None
+
 
 
 def add_to_report(entry_type, entry_data_list):
@@ -57,6 +58,7 @@ def add_to_report(entry_type, entry_data_list):
 def prepare_sample_entries():
     all_files = os.listdir(IMAGE_FOLDER)
     all_files = [f for f in all_files if f.lower().endswith(('.jpg', '.png'))]
+    print("[INFO] Wczytano zdjęcia:", all_files)
 
     infra = []
     incidents = []
