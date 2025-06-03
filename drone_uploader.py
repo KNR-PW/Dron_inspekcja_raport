@@ -1,8 +1,9 @@
-# drone_uploader.py
+import os
 import requests
 from datetime import datetime
 
 BASE_URL = "http://localhost:5000"
+IMAGE_FOLDER = "static/img"  # tu wrzucasz zdjęcia ręcznie lub z drona
 
 
 def report_exists():
@@ -29,60 +30,87 @@ def create_report():
         "arucos": [],
         "infra_map": "/static/img/mapa.jpg"
     }
-    resp = requests.post(f"{BASE_URL}/api/report/create", json=payload)
-    print(f"Raport utworzony: {resp.status_code}")
+    requests.post(f"{BASE_URL}/api/report/create", json=payload)
 
 
-def upload_image_and_add_to_report(image_path, entry_type, entry_data):
-    with open(image_path, 'rb') as f:
+def upload_image(filename):
+    path = os.path.join(IMAGE_FOLDER, filename)
+    with open(path, 'rb') as f:
         files = {'image': f}
-        upload_resp = requests.post(f"{BASE_URL}/api/report/image", files=files)
-
-    if upload_resp.status_code != 200:
-        print("Upload failed:", upload_resp.text)
-        return
-
-    filename = upload_resp.json().get("filename")
-    if not filename:
-        print("No filename in response.")
-        return
-
-    entry_data['image'] = f"/static/img/{filename}"
+        resp = requests.post(f"{BASE_URL}/api/report/image", files=files)
+        if resp.status_code == 200:
+            return resp.json().get("filename")
+        else:
+            print(f"Upload failed for {filename}: {resp.text}")
+            return None
 
 
-    update_payload = {entry_type: [entry_data]}
-    update_resp = requests.post(f"{BASE_URL}/api/report/update", json=update_payload)
-
-    if update_resp.ok:
-        print("✅ Report updated successfully.")
+def add_to_report(entry_type, entry_data_list):
+    payload = {entry_type: entry_data_list}
+    resp = requests.post(f"{BASE_URL}/api/report/update", json=payload)
+    if resp.ok:
+        print(f"✅ Dodano {len(entry_data_list)} elementów do {entry_type}")
     else:
-        print("❌ Report update failed:", update_resp.text)
+        print(f"❌ Błąd dodawania do {entry_type}: {resp.text}")
+
+
+def prepare_sample_entries():
+    all_files = os.listdir(IMAGE_FOLDER)
+    all_files = [f for f in all_files if f.lower().endswith(('.jpg', '.png'))]
+
+    infra = []
+    incidents = []
+    arucos = []
+
+    for idx, fname in enumerate(sorted(all_files)):
+        uploaded = upload_image(fname)
+        if not uploaded:
+            continue
+
+        now_str = datetime.now().strftime("%d/%m/%Y, %H:%M:%S")
+        image_path = f"/static/img/{uploaded}"
+
+        if "infra" in fname.lower():
+            infra.append({
+                "category": f"Uszkodzenie {idx}",
+                "detection_time": now_str,
+                "location": f"Lat 52.2{idx}, Long 21.0{idx}",
+                "image": image_path,
+                "jury": "+"
+            })
+
+        elif "aruco" in fname.lower():
+            arucos.append({
+                "content": f"Kod {idx}",
+                "location": f"Lat 52.1{idx}, Long 21.0{idx}",
+                "location_changed": "Nie",
+                "content_changed": "Nie",
+                "image": image_path,
+                "jury": "-"
+            })
+
+        elif "inc" in fname.lower() or "event" in fname.lower():
+            incidents.append({
+                "event": f"Zdarzenie {idx}",
+                "time": now_str,
+                "location": f"Lat 52.0{idx}, Long 21.0{idx}",
+                "image": image_path,
+                "notified": "Tak",
+                "jury": "+"
+            })
+
+    return infra, incidents, arucos
 
 
 if __name__ == "__main__":
-    # 1. Check if report exists, create if not
     if not report_exists():
         create_report()
 
-    # 2. Upload image and append data
-    upload_image_and_add_to_report(
-        image_path="static/img/test.jpg",  # <- podmień na własną ścieżkę
-        entry_type="infrastructure_changes",  # lub "incidents", "arucos"
-        entry_data={
-            "category": "Nowa rysa",
-            "detection_time": datetime.now().strftime("%d/%m/%Y, %H:%M:%S"),
-            "location": "Słup C3",
-            "jury": "TAK"
-        }
-    )
+    infra, incs, arus = prepare_sample_entries()
 
-    upload_image_and_add_to_report(
-        image_path="static/img/test.jpg",  # <- podmień na własną ścieżkę
-        entry_type="incidents",  # lub "incidents", "arucos"
-        entry_data={
-            "category": "Nowa rysa",
-            "detection_time": datetime.now().strftime("%d/%m/%Y, %H:%M:%S"),
-            "location": "Słup C3",
-            "jury": "TAK"
-        }
-    )
+    if infra:
+        add_to_report("infrastructure_changes", infra)
+    if incs:
+        add_to_report("incidents", incs)
+    if arus:
+        add_to_report("arucos", arus)
