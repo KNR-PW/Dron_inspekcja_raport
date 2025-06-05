@@ -24,7 +24,7 @@ async function loadReport() {
             <td>${row.category}</td>
             <td>${row.detection_time}</td>
             <td>${row.location}</td>
-            <td><img src="${row.image}" alt="Zmiana"></td>
+            <td><img src="/uploads/${row.image}" alt="Zmiana"></td>
             <td>${row.jury}</td>
         `;
         infraTable.appendChild(tr);
@@ -41,7 +41,7 @@ async function loadReport() {
                 <td>${row.bhp}</td>
                 <td>${row.location}</td>
                 <td>${row.location_changed}</td>
-                <td><img src="${row.image}" alt="Pracownik"></td>
+                <td><img src="/uploads/${row.image}" alt="Pracownik"></td>
                 <td>${row.jury}</td>
             `;
             employeesTable.appendChild(tr);
@@ -58,7 +58,7 @@ async function loadReport() {
             <td>${row.event}</td>
             <td>${row.time}</td>
             <td>${row.location}</td>
-            <td><img src="${row.image}" alt="Incydent"></td>
+            <td><img src="/uploads/${row.image}" alt="Incydent"></td>
             <td>${row.notified}</td>
             <td>${row.jury}</td>
         `;
@@ -76,14 +76,21 @@ async function loadReport() {
             <td>${row.location}</td>
             <td>${row.location_changed}</td>
             <td>${row.content_changed}</td>
-            <td><img src="${row.image}" alt="Aruco" style="max-width:52px;"></td>
+            <td><img src="/uploads/${row.image}" alt="Aruco" style="max-width:52px;"></td>
             <td>${row.jury}</td>
         `;
         arucoTable.appendChild(tr);
     });
 
     // Mapa infrastruktury
-    document.querySelector("#infra-map").src = data.infra_map;
+    const mapImg = document.querySelector("#infra-map");
+    if (data.infra_map) {
+        // If only filename is stored, use /uploads/; if full path, extract filename
+        let mapFile = data.infra_map.split("/").pop();
+        mapImg.src = `/uploads/${mapFile}`;
+    } else {
+        mapImg.src = "/uploads/mapa.jpg";
+    }
 
     // Informacje końcowe
     const finalInfoTable = document.querySelector("#final-info tbody");
@@ -128,7 +135,7 @@ function clearReportFromUI() {
     document.querySelector("#infra-changes tbody").innerHTML = "";
     document.querySelector("#incidents tbody").innerHTML = "";
     document.querySelector("#arucos tbody").innerHTML = "";
-    document.querySelector("#infra-map").src = "/static/img/mapa.jpg";
+    document.querySelector("#infra-map").src = "/uploads/mapa.jpg";
     document.querySelector("#final-info tbody").innerHTML = "";
 }
 

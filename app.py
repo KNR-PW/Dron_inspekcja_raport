@@ -1,14 +1,18 @@
 import os
 import json
-from flask import Flask, render_template, jsonify, request
+from flask import Flask, render_template, jsonify, request, send_from_directory
 from inspection_report import generate_random_report, build_report
 from datetime import datetime
+import cv2
+import numpy as np
 
 app = Flask(__name__)
 
 # where we'll store the last-submitted report
 REPORT_PATH = os.path.join(app.root_path, "custom_report.json")
-IMG_UPLOAD_FOLDER = os.path.join(app.root_path, "data/img")
+# IMG_UPLOAD_FOLDER = os.path.join(app.root_path, "data/img")
+IMG_UPLOAD_FOLDER = os.path.join(app.root_path, "data", "img")
+os.makedirs(IMG_UPLOAD_FOLDER, exist_ok=True)
 
 def load_report():
     if os.path.exists(REPORT_PATH):
@@ -99,20 +103,36 @@ def delete_report():
 @app.route("/api/report/image", methods=["POST"])
 def upload_image():
     global latest_image
+    try:
+        if "image" not in request.files:
+            return jsonify({"success": False, "error": "No image provided"}), 400
 
-    if "image" not in request.files:
-        return jsonify({"success": False, "error": "No image provided"}), 400
+        file = request.files["image"]
+        if file.filename == "":
+            return jsonify({"success": False, "error": "Empty filename"}), 400
 
-    file = request.files["image"]
-    if file.filename == "":
-        return jsonify({"success": False, "error": "Empty filename"}), 400
+        # filename = secure_filename(f"{int(time.time())}_{file.filename}")
+        filename = file.filename
+        filepath = os.path.join(IMG_UPLOAD_FOLDER, filename)
+        # Read image file as bytes and convert to numpy array
+        file_bytes = np.frombuffer(file.read(), np.uint8)
+        img = cv2.imdecode(file_bytes, cv2.IMREAD_COLOR)
+        if img is None:
+            return jsonify({"success": False, "error": "Invalid image file"}), 400
 
-    # filename = secure_filename(f"{int(time.time())}_{file.filename}")
-    filename = file.filename
-    filepath = os.path.join(IMG_UPLOAD_FOLDER, filename)
-    file.save(filepath)
+        # Save image using OpenCV
+        cv2.imwrite(filepath, img)
 
-    return jsonify({"success": True, "filename": filename})
+        return jsonify({"success": True, "filename": filename})
+    except Exception as e:
+        return jsonify({"success": False, "error": str(e)}), 500
+
+@app.route("/uploads/<path:filename>")
+def serve_uploaded_image(filename):
+    """
+    Serve the file “data/img/<filename>” whenever someone hits /uploads/<filename>.
+    """
+    return send_from_directory(IMG_UPLOAD_FOLDER, filename)
 
 if __name__ == "__main__":
     app.run(debug=True)
