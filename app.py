@@ -94,6 +94,12 @@ def update_report():
 
 @app.route("/api/report/delete", methods=["DELETE"])
 def delete_report():
+    try:
+        os.remove(IMG_UPLOAD_FOLDER)
+        print("% s removed successfully" % IMG_UPLOAD_FOLDER)
+    except OSError as error:
+        print(error)
+        print("File path can not be removed")
     if not os.path.exists(REPORT_PATH):
         return jsonify({"error": "No report to delete"}), 404
 
